@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace FizzBuzzer
@@ -44,6 +41,10 @@ namespace FizzBuzzer
         {
             var meetsAtLeastOneConstraint = false;
             var output = "";
+
+            if (constraintMap is null)
+                return number.ToString();
+
             foreach (var kvp in constraintMap.Where(kvp => number % kvp.Key == 0))
             {
                 meetsAtLeastOneConstraint = true;

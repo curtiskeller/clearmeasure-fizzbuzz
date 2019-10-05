@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
 using NUnit.Framework;
 
 namespace FizzBuzzUnitTests
@@ -52,7 +51,7 @@ namespace FizzBuzzUnitTests
         }
 
         [Test]
-        public void BuildsConstraintMap()
+        public void BuildsConstraintMapWithValidInput()
         {
             var constraintList = new List<(int divisor, string output)>()
                 {(divisor: 3, output: "fizz"), (divisor: 5, output: "buzz")};
@@ -61,22 +60,34 @@ namespace FizzBuzzUnitTests
             var expectedResult = new Dictionary<int, string> {{3, "fizz"}, {5, "buzz"}};            
             
             Assert.AreEqual(expectedResult, actualMap);
+        }
 
+        [Test]
+        public void BuildsConstraintMapWithDuplicateInput()
+        {
             var duplicatedConstraintList = new List<(int divisor, string output)>()
                 {(divisor: 3, output: "fizz"), (divisor: 5, output: "buzz"), (divisor:5, output:"bizz")};
             var actualDuplicatedMap = FizzBuzzer.FizzBuzzerImplementation.BuildConstraintMap(duplicatedConstraintList);
             var expectedDuplicatedResult = new Dictionary<int, string> { { 3, "fizz" }, { 5, "buzzbizz" } };
 
             Assert.AreEqual(expectedDuplicatedResult, actualDuplicatedMap);
+        }
 
+        [Test]
+        public void BuildsConstraintMapWithNullInput()
+        {
             var nullMap = FizzBuzzer.FizzBuzzerImplementation.BuildConstraintMap(null);
 
             Assert.IsEmpty(nullMap);
+        }
 
+        [Test]
+        public void BuildsConstraintMapWithNullConstraint()
+        {
             var nullItemList = new List<(int divisor, string output)>()
                 {(divisor: 3, output: null)};
             var nullItemMap = FizzBuzzer.FizzBuzzerImplementation.BuildConstraintMap(nullItemList);
-            var expectedNullItemListResult = new Dictionary<int, string> { { 3, null }};
+            var expectedNullItemListResult = new Dictionary<int, string> { { 3, null } };
 
             Assert.AreEqual(expectedNullItemListResult, nullItemMap);
         }
